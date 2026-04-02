@@ -1,0 +1,339 @@
+---
+title: Endpoints
+---
+
+All messages to the `Iota` are either from the `Omikron` directly, from a `Client` or another `Iota` trying to message a `User` on the `Iota`.
+All messages will be marked with a `sender_id` this will be added on the `Omikron`.
+It is important to note that the `Iota ID` is not shared with others as it is what verifies the `Iota` users to Tensamin.
+In the response the `sender_id` & `receiver_id` must be swapped as sender.
+When a message comes from an iota without a `sender-id` that the iota has access to or is designated for the client (`33333333-3333-3333-3333-333333333333`) the message will not be send.
+
+## Messages
+
+### Client adds someone to their contacts
+When adding via name, the omikron will intercept and fill the chat_partner_id.
+The iota will never read, or handle the chat_partner_name.
+
+##### `REQ:`
+
+```json
+{
+  "sender_id": "<user-id>",
+  "receiver_id": "<user-id>",
+
+  "type": "add_conversation",
+  "id": "<uuid>",
+  
+  "data": {
+    "chat_partner_id": id,
+    "chat_partner_name": "name"
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "sender_id": "<user-id>",
+  "receiver_id": "<user-id>",
+
+  "type": "add_conversation",
+  "id": "<uuid>",
+  "data": {}
+}
+```
+
+### Client messages someone
+
+##### `REQ:`
+
+```json
+{
+  "sender_id": "<user-id>",
+  "receiver_id": "<user-id>",
+
+  "type": "message_send",
+  "id": "<uuid>",
+  "data": {
+    "receiver_id": "<uuid>",
+    "content": "<markdown (encrypted)>",
+    "files": [
+      {
+        "name": "<cool name>",
+        "id": "<uuid>",
+        "type": "[ image | image_top_right | file ]"
+      }
+    ]
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "sender_id": "<user-id>",
+  "receiver_id": "<user-id>",
+
+  "type": "message_send",
+  "id": "<uuid>",
+  "data": {}
+}
+```
+
+### Client loads messages
+
+##### `REQ:`
+
+```json
+{
+	"sender_id": "<user-id>",
+
+	"type":"messages_get",
+	"id": "<uuid>",
+	"data": {
+		"user_id": "<user-id>",
+		"amount": int,
+		"offset": int
+	}
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "sender_id": "<iota-id>",
+
+  "type": "messages_get",
+  "id": "<uuid>",
+  "data": {
+    "messages": [
+      {
+        "sent_by_self": true,
+        "timestamp": 0, // UNIX Timestamp for time sent
+        "content": "<markdown (encrypted)>",
+        "files": [
+          {
+            "name": "<cool name>",
+            "id": "<uuid>",
+            "type": "[ image | image_top_right | file ]"
+          }
+        ],
+        "tint": "<hex color>",
+        "avatar": false, // unless false key is removed
+        "display": false // unless false key is removed
+      }
+    ]
+  }
+}
+```
+
+### Send a message to other Iota
+
+##### `REQ:`
+
+```json
+{
+  "type": "message_send",
+  "id": "<message_id>",
+  "data": {
+    "receiver_id": "99999999-8888-7777-6666-555555555555",
+    "content": "Hello, how are you?"
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "type": "message",
+  "id": "<message_id>",
+  "receiver": "<user_id>"
+}
+```
+
+### Receive live message (`message_other_iota`)
+
+##### `UPDATE:`
+
+```json
+{
+	"type": "message_live",
+	"id": "<message_id>",
+	"receiver": "<user_id>",
+
+	"data": {
+		"send_time": unixstamp,
+		"message": "<content>",
+		"sender_id": "99999999-8888-7777-6666-555555555555"
+	}
+}
+```
+
+## Communities
+
+### Client storing a community on their Iota
+
+##### `REQ:`
+
+```json
+{
+  "type": "add_community",
+  "id": "<message_id>",
+  "receiver": "<user_id>",
+
+  "data": {
+    "community_address": "community_address",
+    "community_title": "community_title",
+    "position": "x.y.z"
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "type": "add_community",
+  "id": "<message_id>",
+  "receiver": "<user_id>",
+
+  "data": {}
+}
+```
+
+### Client loading communities from their Iota
+
+##### `REQ:`
+
+```json
+{
+  "type": "get_communities",
+  "id": "<message_id>",
+
+  "data": {}
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "type": "get_community",
+  "id": "<message_id>",
+  "receiver": "<user_id>",
+
+  "data": {
+    "communities": [
+      {
+        "community_address": "enc_community_address",
+        "community_title": "enc_community_title",
+        "position": "x.y.z" // Frontend defines folders etc
+      },
+      {
+        "community_address": "enc_community_address",
+        "community_title": "enc_community_title",
+        "position": "x.y.z"
+      }
+    ]
+  }
+}
+```
+
+### Remove a community
+
+##### `REQ:`
+
+```json
+{
+  "type": "remove_community",
+  "id": "<message_id>",
+
+  "data": {
+    "community_address": "community-uuid-or-address"
+  }
+}
+```
+
+##### `RES`:
+
+```json
+{
+  "type": "remove_community",
+  "id": "<message_id>",
+  "receiver": "<user_id>"
+}
+```
+
+## User Settings
+
+### Save user Settings on Iota
+
+##### `REQ:`
+
+```json
+{
+  "type": "settings_save",
+  "id": "<message_id>",
+
+  "data": {
+    "setting_name": "<name of category>",
+    "payload": {
+      "this": "will",
+      "be": "saved",
+      "on": "the",
+      "iota": "!"
+    }
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "type": "settings_save",
+  "id": "<message_id>",
+  "receiver": "<user_id>",
+
+  "data": {}
+}
+```
+
+### Load user Settings
+
+##### `REQ:`
+
+```json
+{
+  "type": "settings_load",
+  "id": "<message_id>",
+
+  "data": {
+    "setting_name": "<name of category>"
+  }
+}
+```
+
+##### `RES:`
+
+```json
+{
+  "type": "settings_load",
+  "id": "<message_id>",
+  "receiver": "<user_id>",
+
+  "data": {
+    "setting_name": "<name of category>",
+    "payload": {
+      "this": "will",
+      "be": "saved",
+      "on": "the",
+      "iota": "!"
+    }
+  }
+}
+```

@@ -1,0 +1,28 @@
+@layer base, starlight, theme, components, utilities;
+
+@import "tailwindcss";
+@import "@astrojs/starlight-tailwind";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --font-sans:
+    "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono", SF Mono, SF Mono Regular, Consolas, "Liberation Mono",
+    Menlo, Courier, monospace;
+
+  --color-accent-200: #b7cecc;
+  --color-accent-600: #287771;
+  --color-accent-900: #193936;
+  --color-accent-950: #152826;
+  --color-gray-100: #f3f7f8;
+  --color-gray-200: #e8eff1;
+  --color-gray-300: #bbc4c6;
+  --color-gray-400: #7e8f93;
+  --color-gray-500: #4b5b5f;
+  --color-gray-700: #2c3b3f;
+  --color-gray-800: #1b2a2d;
+  --color-gray-900: #13191b;
+}
