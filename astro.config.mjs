@@ -43,19 +43,30 @@ export default defineConfig({
         {
           label: "Components",
           items: [
-            { label: "Iota", autogenerate: { directory: "components/iota" } },
+            {
+              label: "Iota",
+              items: [{ autogenerate: { directory: "components/iota" } }],
+            },
             {
               label: "Omikron",
-              autogenerate: { directory: "components/omikron" },
+              items: [{ autogenerate: { directory: "components/omikron" } }],
             },
-            { label: "Omega", autogenerate: { directory: "components/omega" } },
+            {
+              label: "Omega",
+              items: [{ autogenerate: { directory: "components/omega" } }],
+            },
             {
               label: "Auth Server",
-              autogenerate: { directory: "components/auth-server" },
+              items: [
+                { autogenerate: { directory: "components/auth-server" } },
+              ],
             },
           ],
         },
-        { label: "Security", autogenerate: { directory: "security" } },
+        {
+          label: "Security",
+          items: [{ autogenerate: { directory: "security" } }],
+        },
       ],
     }),
     mdx(),
