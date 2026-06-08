@@ -10,6 +10,25 @@ When a message comes from an iota without a `sender-id` that the iota has access
 
 ## Messages
 
+### Messaging Lifecycle
+
+The messaging system follows a strict derivation loop to ensure delivery and correct state synchronization:
+
+1. The client sends a `message_send` to its Iota.
+2. The Iota sends a response `message_send` as confirmation back to the client.
+3. The Iota sends a `message_other_iota` to the chat partner's Iota.
+   - **If it times out:**
+     - The initial Iota sends a `message_state` to the client with the state `"sending"`.
+   - **If successful:**
+     - The other Iota receives the `message_other_iota` and handles it.
+     - The other Iota informs its client with a `message_live`.
+     - **If the client doesn't answer:**
+       1. The other Iota will send a `message_state` to the initial Iota with the state `"sent"`.
+       2. The initial Iota will store the state and forward the `message_state` to its client.
+     - **If the client answers with `message_state`:**
+       1. The other Iota will store the state (either `"received"` or `"read"`) and forward the `message_state` to the initial Iota.
+       2. The initial Iota will store the state and forward the `message_state` to its client.
+
 ### Client adds someone to their contacts
 When adding via name, the omikron will intercept and fill the chat_partner_id.
 The iota will never read, or handle the chat_partner_name.

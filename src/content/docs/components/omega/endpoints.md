@@ -55,3 +55,19 @@ Any message to the `Omega` will be ignored until Identification.
 	}
 }
 ```
+
+### Push Notification
+
+Sends a push notification to a user. The receiver ID can be specified either in the `receiver` field of the message or in the data payload.
+
+##### `REQ:`
+
+```json
+{
+  "type": "push_notification",
+  "data": {
+    "receiver_id": "<user-id>", // Optional, if not in receiver field
+    "sender_id": "<user-id>"
+  }
+}
+```

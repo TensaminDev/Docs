@@ -175,3 +175,68 @@ The ping request should contain the last Client or Iota ping and the pong answer
   }
 }
 ```
+
+## User Online Status
+
+### Set Client Status
+
+The client can change their online status by sending a `client_changed` message.  
+Supported status values: `user_online`, `user_offline`, `user_dnd`, `user_idle`, `user_wc`, `user_invisible`.
+
+When `user_invisible` is set, the user remains connected and can send/receive messages, but appears as `user_offline` to all other users.
+
+#### `REQ` (Client → Omikron):
+
+```json
+{
+  "id": "<uuid>",
+  "type": "client_changed",
+  "data": {
+    "user_state": "<status>"
+  }
+}
+```
+
+### Online Status Notifications
+
+When a connected user changes their status, interested clients receive a notification:
+
+#### `EVENT` (Omikron → Client):
+
+```json
+{
+  "type": "client_changed",
+  "data": {
+    "user_id": "<user-id>",
+    "user_state": "<status>"
+  }
+}
+```
+
+### Online Status in User Data
+
+When fetching another user's profile via `get_user_data`, their online status is included in the response. Invisible users are reported as `user_offline`.
+
+#### `RES` (Omikron → Client, field in `get_user_data`):
+
+```json
+{
+  "id": "<uuid>",
+  "type": "get_user_data",
+  "data": {
+    "user_id": long,
+    "username": "<string>",
+    "display": "<string>",
+    "public_key": "<base64>",
+    "iota_id": long,
+    "online_status": "<status>",
+    "omikron_id": long,
+    "omikron_connections": [long, ...],
+    "sub_level": long,
+    "sub_end": long,
+    "about": "<string>?",
+    "avatar": "<base64>?",
+    "status": "<string>?"
+  }
+}
+```
