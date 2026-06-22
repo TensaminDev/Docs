@@ -4,31 +4,8 @@ title: Installation
 
 # Client
 
-You can download the client from [GitHub](https://github.com/Tensamin/Client/releases) or directly from the [Homepage](https://tensamin.net).
-For linux we have `.deb` and `.rpm` files on github, two AUR packages and a Nix Flake.
-
-### Arch Linux
-
-This includes [these distros](https://wiki.archlinux.org/title/Arch-based_distributions)
-
-##### Easy Install
-
-- `paru -S tensamin-bin`
-- `paru -S tensamin-git`
-
-##### Manual Install
-
-```sh
-git clone https://aur.archlinux.org/tensamin-bin
-cd tensamin-bin
-makepkg -si
-```
-
-```sh
-git clone https://aur.archlinux.org/tensamin-git
-cd tensamin-git
-makepkg -si
-```
+You can download the client from our [Git](https://git.methanium.net/tensamin/client/releases) or directly from the [Homepage](https://tensamin.net).
+We provide a `.deb`, `.rpm` and `.AppImage`
 
 ### Nix Flake
 
@@ -40,7 +17,7 @@ makepkg -si
 {
   # ...
   inputs = {
-    tensamin.url = "github:Tensamin/Client";
+    tensamin.url = "git+https://git.methanium.net/tensamin/client";
     # ...
   };
   # ...
@@ -67,7 +44,7 @@ makepkg -si
 
 # Iota
 
-We provide a docker container and binary download on [GitHub](https://github.com/Tensamin/Iota/releases).
+We provide a docker container and binary download on our [Git](https://git.methanium.net/tensamin/iota/releases).
 
 ### Docker
 
