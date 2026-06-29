@@ -3,16 +3,18 @@ on:
     branches:
       - main
 
+env:
+  NIX_CONFIG: experimental-features = nix-command flakes
+
 jobs:
   deploy:
-    runs-on: docker
-
+    runs-on: nixos
     steps:
+      - name: Install node & bun
+        run: nix profile add nixpkgs#nodejs_24 nixpkgs#bun
+
       - name: Check out repo
         uses: https://data.forgejo.org/actions/checkout@v4
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -21,7 +23,7 @@ jobs:
         run: bun run build
 
       - name: Install rsync
-        run: apt-get update && apt-get install -y rsync
+        run: nix profile add nixpkgs#rsync
 
       - name: Deploy
         run: rsync -a --delete dist/ /var/lib/www/tensamin-docs/

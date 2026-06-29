@@ -4,14 +4,13 @@ title: Installation
 
 # Client
 
-You can download the client from our [Git](https://git.methanium.net/tensamin/client/releases) or directly from the [Homepage](https://tensamin.net).
-We provide a `.deb`, `.rpm` and `.AppImage`
+You can download the latest client from our [Git](https://git.methanium.net/tensamin/client/releases). It is available as a `.deb`, `.rpm`, `.AppImage` and a Nix Flake
 
 ### Nix Flake
 
 **flake.nix**
 
-1. Add it to the inputs
+1. Add Tensamin to your inputs
 
 ```nix
 {
@@ -24,7 +23,7 @@ We provide a `.deb`, `.rpm` and `.AppImage`
 }
 ```
 
-2. Add it to the system packages
+2. And add the package
 
 **configuration.nix**
 
@@ -44,7 +43,7 @@ We provide a `.deb`, `.rpm` and `.AppImage`
 
 # Iota
 
-We provide a docker container and binary download on our [Git](https://git.methanium.net/tensamin/iota/releases).
+You can download the Iota from our [Git](https://git.methanium.net/tensamin/iota/releases) or run the docker image:
 
 ### Docker
 
@@ -54,7 +53,7 @@ Using `docker run`
 docker run tensamin/iota:latest
 ```
 
-or using Docker-Compose
+Using Docker-Compose
 
 ```yaml
 services:
@@ -70,13 +69,4 @@ services:
 
 volumes:
   data:
-```
-
-### Build from source
-
-```bash
-git clone https://github.com/Tensamin/Iota
-cd Iota
-cargo build --release
-./target/release/iota
 ```
