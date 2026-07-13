@@ -10,6 +10,16 @@ The `Omikron` will add a `sender_id` to Messages from `Client` to the `Iota`.
 
 The `receiver_id` and `sender_id` of the `Omikron` server are `22222222-2222-2222-2222-222222222222`.
 
+## Messages
+
+### Message mutation forwarding
+
+`Omikron` forwards `MessageEditLive`, `MessageReactionLive`, and `MessageDeleteLive` by their MTP receiver. The sender Iota persists the authenticated request before forwarding it. The recipient Iota persists the live update before Omikron sends it to the recipient client.
+
+The request types `MessageEdit`, `MessageReactionAdd`, and `MessageReactionRemove` stay on the sender Iota. `MessageDeleteLive` is both the delete request and the live update; the authenticated connection direction distinguishes the request from a forwarded update.
+
+> See also: `components/iota/endpoints.md` for message mutation payloads.
+
 ## Identification
 
 Any message to the `Omikron` will be ignored until Identification.

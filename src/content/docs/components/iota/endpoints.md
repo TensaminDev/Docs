@@ -25,6 +25,161 @@ The messaging system follows a strict derivation loop to ensure delivery and cor
      - **If the client doesn't answer:**
        1. The other Iota will send a `message_state` to the initial Iota with the state `"sent"`.
        2. The initial Iota will store the state and forward the `message_state` to its client.
+
+### Message mutations
+
+`Iota` stores each mutation on the sender and recipient replicas. `Content` remains encrypted chat content. The sender is taken from the authenticated MTP connection and must own the original message for edits and deletion.
+
+#### `MessageEdit`
+
+Changes an existing message. `ChatPartnerId` and `SendTime` identify the message.
+
+##### `REQ (C2S):`
+
+```json
+{
+  "type": "MessageEdit",
+  "sender_id": "<authenticated-user-id>",
+  "data": {
+    "ChatPartnerId": "<chat-partner-id>",
+    "SendTime": "<message-unix-milliseconds>",
+    "Content": "<encrypted-base64>"
+  }
+}
+```
+
+##### `RES (S2C):`
+
+```json
+{
+  "type": "Success"
+}
+```
+
+##### `UPDATE:`
+
+```json
+{
+  "type": "MessageEditLive",
+  "sender_id": "<editing-user-id>",
+  "receiver_id": "<chat-partner-id>",
+  "data": {
+    "ChatPartnerId": "<editing-user-id>",
+    "SendTime": "<message-unix-milliseconds>",
+    "Content": "<encrypted-base64>"
+  }
+}
+```
+
+#### `MessageReactionAdd`
+
+Adds one reaction for the authenticated user. Repeating the same request does not create a duplicate row.
+
+##### `REQ (C2S):`
+
+```json
+{
+  "type": "MessageReactionAdd",
+  "sender_id": "<authenticated-user-id>",
+  "data": {
+    "ChatPartnerId": "<chat-partner-id>",
+    "SendTime": "<message-unix-milliseconds>",
+    "Reaction": "<emoji-or-reaction-text>"
+  }
+}
+```
+
+##### `RES (S2C):`
+
+```json
+{
+  "type": "Success"
+}
+```
+
+#### `MessageReactionRemove`
+
+Removes the authenticated user's matching reaction.
+
+##### `REQ (C2S):`
+
+```json
+{
+  "type": "MessageReactionRemove",
+  "sender_id": "<authenticated-user-id>",
+  "data": {
+    "ChatPartnerId": "<chat-partner-id>",
+    "SendTime": "<message-unix-milliseconds>",
+    "Reaction": "<emoji-or-reaction-text>"
+  }
+}
+```
+
+##### `RES (S2C):`
+
+```json
+{
+  "type": "Success"
+}
+```
+
+##### `UPDATE:`
+
+```json
+{
+  "type": "MessageReactionLive",
+  "sender_id": "<reacting-user-id>",
+  "receiver_id": "<chat-partner-id>",
+  "data": {
+    "ChatPartnerId": "<reacting-user-id>",
+    "SendTime": "<message-unix-milliseconds>",
+    "Reaction": "<emoji-or-reaction-text>",
+    "SenderId": "<reacting-user-id>",
+    "Accepted": true
+  }
+}
+```
+
+`Accepted` is `true` for an add and `false` for a removal.
+
+#### `MessageDeleteLive`
+
+Deletes a message from both replicas. The existing `MessageDeleteLive` MTP type is used for both the authenticated delete request and the recipient update because no separate delete request type exists in the client type map.
+
+##### `REQ (C2S):`
+
+```json
+{
+  "type": "MessageDeleteLive",
+  "sender_id": "<authenticated-user-id>",
+  "data": {
+    "ChatPartnerId": "<chat-partner-id>",
+    "SendTime": "<message-unix-milliseconds>"
+  }
+}
+```
+
+##### `RES (S2C):`
+
+```json
+{
+  "type": "Success"
+}
+```
+
+##### `UPDATE:`
+
+```json
+{
+  "type": "MessageDeleteLive",
+  "sender_id": "<deleting-user-id>",
+  "receiver_id": "<chat-partner-id>",
+  "data": {
+    "ChatPartnerId": "<deleting-user-id>",
+    "SendTime": "<message-unix-milliseconds>"
+  }
+}
+```
      - **If the client answers with `message_state`:**
        1. The other Iota will store the state (either `"received"` or `"read"`) and forward the `message_state` to the initial Iota.
        2. The initial Iota will store the state and forward the `message_state` to its client.
@@ -133,6 +288,13 @@ The iota will never read, or handle the chat_partner_name.
         "sent_by_self": true,
         "timestamp": 0, // UNIX Timestamp for time sent
         "content": "<markdown (encrypted)>",
+        "Edited": true,
+        "Reactions": [
+          {
+            "Reaction": "<emoji-or-reaction-text>",
+            "SenderId": "<user-id>"
+          }
+        ],
         "files": [
           {
             "name": "<cool name>",
@@ -148,6 +310,8 @@ The iota will never read, or handle the chat_partner_name.
   }
 }
 ```
+
+`ClientConnected` and `MessagesGet` include `Edited: true` for messages with at least one edit and a `Reactions` array. Each reaction contains `Reaction` and `SenderId` fields. Clients that do not consume these fields continue to receive the existing message fields.
 
 ### Send a message to other Iota
 
