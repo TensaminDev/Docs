@@ -2,9 +2,13 @@
 title: Installation
 ---
 
+**We currently only support Linux!**
+
+**As soon as we have enough money to purchase the necessary certificates and hardware to produce versions for Windows and macOS, we will do so.**
+
 # Client
 
-You can download the latest client from our [Git](https://git.methanium.net/tensamin/client/releases). It is available as a `.deb`, `.rpm`, `.AppImage` and a Nix Flake
+You can download a `.deb`, `.rpm` or `.AppImage` of the client from our [Git](https://git.methanium.net/tensamin/client/releases).
 
 ### Nix Flake
 

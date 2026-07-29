@@ -455,6 +455,8 @@ The iota will never read, or handle the chat_partner_name.
 
 Settings are scoped to the authenticated device session. The `SessionId` must match the session assigned by the Omikron. Setting names may contain alphanumeric characters, `_`, `-`, and `.`, but may not contain `..`.
 
+Settings are not included in `ClientStateSync` and changes are not pushed to clients. A client receives confirmation of its own change in the `SettingsSave` response and must send `SettingsLoad` to retrieve a stored value. Because these settings are scoped by `SessionId`, saving them does not update another device's settings.
+
 ### Save user Settings on Iota
 
 ##### `REQ:`
