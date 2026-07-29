@@ -453,23 +453,21 @@ The iota will never read, or handle the chat_partner_name.
 
 ## User Settings
 
+Settings are scoped to the authenticated device session. The `SessionId` must match the session assigned by the Omikron. Setting names may contain alphanumeric characters, `_`, `-`, and `.`, but may not contain `..`.
+
 ### Save user Settings on Iota
 
 ##### `REQ:`
 
 ```json
 {
-  "type": "settings_save",
+  "type": "SettingsSave",
   "id": "<message_id>",
 
   "data": {
-    "setting_name": "<name of category>",
-    "payload": {
-      "this": "will",
-      "be": "saved",
-      "on": "the",
-      "iota": "!"
-    }
+    "SessionId": 12345,
+    "SettingsName": "<name of category>",
+    "Payload": "<serialized or encrypted settings>"
   }
 }
 ```
@@ -478,11 +476,14 @@ The iota will never read, or handle the chat_partner_name.
 
 ```json
 {
-  "type": "settings_save",
+  "type": "SettingsSave",
   "id": "<message_id>",
   "receiver": "<user_id>",
 
-  "data": {}
+  "data": {
+    "SessionId": 12345,
+    "SettingsName": "<name of category>"
+  }
 }
 ```
 
@@ -492,11 +493,12 @@ The iota will never read, or handle the chat_partner_name.
 
 ```json
 {
-  "type": "settings_load",
+  "type": "SettingsLoad",
   "id": "<message_id>",
 
   "data": {
-    "setting_name": "<name of category>"
+    "SessionId": 12345,
+    "SettingsName": "<name of category>"
   }
 }
 ```
@@ -505,18 +507,16 @@ The iota will never read, or handle the chat_partner_name.
 
 ```json
 {
-  "type": "settings_load",
+  "type": "SettingsLoad",
   "id": "<message_id>",
   "receiver": "<user_id>",
 
   "data": {
-    "setting_name": "<name of category>",
-    "payload": {
-      "this": "will",
-      "be": "saved",
-      "on": "the",
-      "iota": "!"
-    }
+    "SessionId": 12345,
+    "SettingsName": "<name of category>",
+    "Payload": "<serialized or encrypted settings>"
   }
 }
 ```
+
+Loading a setting that does not exist returns `ErrorNotFound` with the requested `SessionId` and `SettingsName`.
