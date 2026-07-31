@@ -4,7 +4,7 @@ title: Installation
 
 **We currently only support Linux!**
 
-**As soon as we have enough money to purchase the necessary certificates and hardware to produce versions for Windows and macOS, we will do so.**
+**We will start working on versions for Windows and macOS as soon as we have enough money to purchase the necessary certificates and hardware.**
 
 # Client
 
