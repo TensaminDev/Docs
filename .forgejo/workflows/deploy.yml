@@ -10,17 +10,17 @@ jobs:
   deploy:
     runs-on: nixos
     steps:
-      - name: Install node & bun
-        run: nix profile add nixpkgs#nodejs_24 nixpkgs#bun
+      - name: Install node & pnpm
+        run: nix profile add nixpkgs#nodejs_24 nixpkgs#pnpm
 
       - name: Check out repo
         uses: https://data.forgejo.org/actions/checkout@v7
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: pnpm run build
 
       - name: Install rsync
         run: nix profile add nixpkgs#rsync
