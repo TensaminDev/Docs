@@ -39,7 +39,7 @@ export default defineConfig({
         {
           icon: "heart",
           label: "Support us",
-          href: "https://shop.methanium.net",
+          href: "https://shop.methanium.net/en-eur/collections/tensamin",
         },
       ],
       sidebar: [
