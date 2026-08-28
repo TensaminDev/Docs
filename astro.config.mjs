@@ -22,19 +22,24 @@ export default defineConfig({
       customCss: ["./src/theme.css"],
       social: [
         {
-          icon: "github",
-          label: "GitHub",
-          href: "https://github.com/Tensamin",
+          icon: "code-branch",
+          label: "Git",
+          href: "https://git.methanium.net/tensamin",
         },
         {
           icon: "external",
-          label: "Website",
+          label: "Homepage",
           href: "https://tensamin.net",
         },
         {
           icon: "information",
           label: "Status",
-          href: "https://status.tensamin.net",
+          href: "https://status.methanium.net",
+        },
+        {
+          icon: "heart",
+          label: "Support us",
+          href: "https://shop.methanium.net/collections/tensamin",
         },
       ],
       sidebar: [

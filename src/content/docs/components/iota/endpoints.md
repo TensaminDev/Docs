@@ -557,23 +557,23 @@ through its authenticated MTP connection.
 
 ## User Settings
 
+Settings are scoped to the authenticated device session. The `SessionId` must match the session assigned by the Omikron. Setting names may contain alphanumeric characters, `_`, `-`, and `.`, but may not contain `..`.
+
+Settings are not included in `ClientStateSync` and changes are not pushed to clients. A client receives confirmation of its own change in the `SettingsSave` response and must send `SettingsLoad` to retrieve a stored value. Because these settings are scoped by `SessionId`, saving them does not update another device's settings.
+
 ### Save user Settings on Iota
 
 ##### `REQ:`
 
 ```json
 {
-  "type": "settings_save",
+  "type": "SettingsSave",
   "id": "<message_id>",
 
   "data": {
-    "setting_name": "<name of category>",
-    "payload": {
-      "this": "will",
-      "be": "saved",
-      "on": "the",
-      "iota": "!"
-    }
+    "SessionId": 12345,
+    "SettingsName": "<name of category>",
+    "Payload": "<serialized or encrypted settings>"
   }
 }
 ```
@@ -582,11 +582,14 @@ through its authenticated MTP connection.
 
 ```json
 {
-  "type": "settings_save",
+  "type": "SettingsSave",
   "id": "<message_id>",
   "receiver": "<user_id>",
 
-  "data": {}
+  "data": {
+    "SessionId": 12345,
+    "SettingsName": "<name of category>"
+  }
 }
 ```
 
@@ -596,11 +599,12 @@ through its authenticated MTP connection.
 
 ```json
 {
-  "type": "settings_load",
+  "type": "SettingsLoad",
   "id": "<message_id>",
 
   "data": {
-    "setting_name": "<name of category>"
+    "SessionId": 12345,
+    "SettingsName": "<name of category>"
   }
 }
 ```
@@ -609,18 +613,16 @@ through its authenticated MTP connection.
 
 ```json
 {
-  "type": "settings_load",
+  "type": "SettingsLoad",
   "id": "<message_id>",
   "receiver": "<user_id>",
 
   "data": {
-    "setting_name": "<name of category>",
-    "payload": {
-      "this": "will",
-      "be": "saved",
-      "on": "the",
-      "iota": "!"
-    }
+    "SessionId": 12345,
+    "SettingsName": "<name of category>",
+    "Payload": "<serialized or encrypted settings>"
   }
 }
 ```
+
+Loading a setting that does not exist returns `ErrorNotFound` with the requested `SessionId` and `SettingsName`.
