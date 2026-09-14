@@ -46,6 +46,10 @@ export default defineConfig({
         "index",
         "installation",
         {
+          label: "Developers",
+          items: [{ autogenerate: { directory: "developers" } }],
+        },
+        {
           label: "Components",
           items: [
             {
