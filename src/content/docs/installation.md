@@ -2,75 +2,78 @@
 title: Installation
 ---
 
-**We currently only support Linux!**
+## Linux client
 
-**We will start working on versions for Windows and macOS as soon as we have enough money to purchase the necessary certificates and hardware.**
+The default desktop client is Electron. Use the combined
+[prod-pins releases](https://git.methanium.net/tensamin/prod-pins/releases)
+for published downloads. Release publication is being consolidated there;
+check the attached assets for the available formats and architectures.
 
-# Client
+The central flake supports `x86_64-linux` and `aarch64-linux`:
 
-You can download a `.deb`, `.rpm` or `.AppImage` of the client from our [Git](https://git.methanium.net/tensamin/client/releases).
-
-### Nix Flake
-
-**flake.nix**
-
-1. Add Tensamin to your inputs
-
-```nix
-{
-  # ...
-  inputs = {
-    tensamin.url = "git+https://git.methanium.net/tensamin/client";
-    # ...
-  };
-  # ...
-}
+```sh
+nix run git+https://git.methanium.net/tensamin/prod-pins#client
+nix build git+https://git.methanium.net/tensamin/prod-pins
 ```
 
-2. And add the package
-
-**configuration.nix**
+Both `default` and `client` select Electron. `client-web` is a static web
+application, not a desktop executable. For NixOS, add the central input:
 
 ```nix
-{
-  inputs,
-  pkgs,
-  ...
-}: {
-  # ...
+inputs.tensamin.url = "git+https://git.methanium.net/tensamin/prod-pins?ref=main";
+```
+
+Pass `inputs` through your configuration's `specialArgs`, then install:
+
+```nix
+{ inputs, pkgs, ... }: {
   environment.systemPackages = [
-    inputs.tensamin.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.tensamin.packages.${pkgs.stdenv.hostPlatform.system}.client
   ];
-  # ...
 }
 ```
 
-# Iota
+The pinned sources currently use SSH URLs. Fetching them requires read access
+to `git@methanium.net`, even when the central input uses HTTPS.
 
-You can download the Iota from our [Git](https://git.methanium.net/tensamin/iota/releases) or run the docker image:
+## Android channels
 
-### Docker
+| Channel | Application ID | Branding |
+| --- | --- | --- |
+| Stable | `net.tensamin.client` | Regular Tensamin icon |
+| Canary | `net.tensamin.client.canary` | Yellow icon |
+| Local dev | `net.tensamin.client.dev` | Blue background with outline artwork |
 
-Using `docker run`
+Stable and canary can be installed side by side. Each ID needs a consistent
+Android signing key and increasing version codes for in-place updates.
+Dev is for local development; client CI verifies it but publishes no dev releases.
 
-```bash
-docker run tensamin/iota:latest
+Download the channel's signed APK from prod-pins, or use
+[Obtainium](/obtainium/) to track Android updates. Final APK filenames and
+publication workflows are still pending. These docs do not imply that every
+listed artifact is already published.
+
+## Iota
+
+For NixOS, use the [central modules](/deployment/). For an unmanaged Linux
+system with systemd, obtain a trusted Iota CLI and the matching signed ZIP
+bundle from prod-pins, then bootstrap explicitly:
+
+```sh
+sudo ./iota daemon bootstrap --bundle ./iota-release.zip --operator "$USER"
+sudo iota terms accept --system
+sudo iota update channel stable
+sudo iota update check
+sudo iota update apply
 ```
 
-Using Docker-Compose
+`iota-release.zip` is a local filename for your downloaded bundle, not a
+promised release asset name. Verify the initial CLI and bundle provenance
+before running them as root. The bundle provisions the pinned update public
+key and key ID. Later updates verify signed manifests against that trust.
+See [updates and security](/updates/) for channel selection and NixOS updates.
 
-```yaml
-services:
-  app:
-    container_name: iota
-    image: tensamin/iota:latest
-    ports:
-      - "1984:1984" # Needed for communties and web ui
-    volumes:
-      - data:/app
-      - ./users.json:/app/users.json
-      - ./config.json:/app/config.json
-
-volumes:
-  data:
-```
+The unmanaged installer uses the `iota-operators` group and
+`iota-daemon.service`/`iota-daemon.socket`. Start a new login session after
+group membership changes. The NixOS module instead uses the `iota` group and
+`iota.service`/`iota.socket`.

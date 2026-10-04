@@ -45,6 +45,9 @@ export default defineConfig({
       sidebar: [
         "index",
         "installation",
+        "obtainium",
+        "deployment",
+        "updates",
         {
           label: "Developers",
           items: [{ autogenerate: { directory: "developers" } }],
