@@ -138,11 +138,8 @@ Hosted credentials use Omega only to discover connection route. Omega does not g
 
 Direct Iota mode is planned. It must use same TAuth MTP protocol and server-side checks as Omikron.
 
-Protocol details:
-
-- [Iota endpoints](/components/iota/endpoints/)
-- [Omikron endpoints](/components/omikron/endpoints/)
-- [Omega endpoints](/components/omega/endpoints/)
+Use the SDK's typed methods for account operations. Hosting the service needed
+to register your app is covered in [Iota setup](/iota/).
 
 ## Errors and troubleshooting
 

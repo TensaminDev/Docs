@@ -17,19 +17,9 @@ You can also download the [JSON import file](/obtainium.json) and import it
 from Obtainium's Import/Export page. It contains both channels; select the
 one you want. The links above carry the same configuration, not just a URL.
 
-## Release contract pending
-
-These import configurations select immutable combined product releases.
-Publication must confirm the following before they work end to end:
-
-- Forgejo release titles start with `stable-` or `canary-`.
-- Each release contains only that channel's client APKs with `.apk` filenames.
-- Each new release has a new title and publication date.
-- Android application IDs and signing keys match the selected channel, and
-  version codes increase for each ID.
-
-Sync this JSON with the final pipeline if its titles or asset layout differ.
-No live APK installation or update has been verified yet.
+Stable and canary are separate Android applications. Obtainium tracks the
+application you import; it does not switch an installed stable app to canary.
+Android still requires compatible signing keys and increasing version codes.
 
 ## Manual configuration
 
@@ -48,23 +38,3 @@ The import enables **Release Date as Version** and disables **Version Detection*
 Obtainium's pseudo-version tracks the release date, while Android still checks
 signing identity and version code. The metadata-only `stable` and `canary`
 releases have no APKs and are excluded by the title filters.
-
-## JSON and deep-link format
-
-The downloadable file is an array of app export objects. `additionalSettings`
-is a JSON-encoded string inside each object, not a nested object. To create a
-single-app link, serialize one object and URL-encode it:
-
-```js
-const link = 'obtainium://app/' + encodeURIComponent(JSON.stringify(config));
-```
-
-For the complete array use `obtainium://apps/` with the encoded array.
-`obtainium://add?url=...` only prefills a URL and omits our source override
-and channel filters. Obtainium shows a confirmation before importing.
-
-Verified against the official [deep-link documentation](https://wiki.obtainium.imranr.dev/deep_links/)
-and [source documentation](https://wiki.obtainium.imranr.dev/sources/), plus
-the upstream [app JSON model](https://github.com/ImranR98/Obtainium/blob/main/lib/models/app.dart),
-[Forgejo adapter](https://github.com/ImranR98/Obtainium/blob/main/lib/app_sources/codeberg.dart),
-and [release settings](https://github.com/ImranR98/Obtainium/blob/main/lib/app_sources/github.dart).

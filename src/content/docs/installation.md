@@ -1,79 +1,48 @@
 ---
-title: Installation
+title: Install the app
 ---
 
-## Linux client
+Download the client from the
+[Tensamin releases](https://git.methanium.net/tensamin/prod-pins/releases).
+Choose a release and use the assets attached to it for your platform and architecture.
 
-The default desktop client is Electron. Use the combined
-[prod-pins releases](https://git.methanium.net/tensamin/prod-pins/releases)
-for published downloads. Release publication is being consolidated there;
-check the attached assets for the available formats and architectures.
+## Linux
 
-The central flake supports `x86_64-linux` and `aarch64-linux`:
+The desktop client uses Electron. Published Linux builds can include AppImage,
+deb, and rpm files. Use your distribution's package installer for deb or rpm.
+For an AppImage, make the downloaded file executable and launch it:
 
 ```sh
-nix run git+https://git.methanium.net/tensamin/prod-pins#client
-nix build git+https://git.methanium.net/tensamin/prod-pins
+chmod +x ./Tensamin-*.AppImage
+./Tensamin-*.AppImage
 ```
 
-Both `default` and `client` select Electron. `client-web` is a static web
-application, not a desktop executable. For NixOS, add the central input:
+Run these commands in a directory containing only the AppImage you intend to use.
+The client does not download or install its own updates. Install a newer release
+manually, or update through the package manager that installed it.
 
-```nix
-inputs.tensamin.url = "git+https://git.methanium.net/tensamin/prod-pins?ref=main";
-```
+## Android
 
-Pass `inputs` through your configuration's `specialArgs`, then install:
+Install the signed APK attached to your chosen release. Android may ask you to
+allow installations from the browser or file manager you use to open it.
 
-```nix
-{ inputs, pkgs, ... }: {
-  environment.systemPackages = [
-    inputs.tensamin.packages.${pkgs.stdenv.hostPlatform.system}.client
-  ];
-}
-```
-
-The pinned sources currently use SSH URLs. Fetching them requires read access
-to `git@methanium.net`, even when the central input uses HTTPS.
-
-## Android channels
-
-| Channel | Application ID | Branding |
+| Build | Application ID | Icon |
 | --- | --- | --- |
-| Stable | `net.tensamin.client` | Regular Tensamin icon |
-| Canary | `net.tensamin.client.canary` | Yellow icon |
-| Local dev | `net.tensamin.client.dev` | Blue background with outline artwork |
+| Stable | `net.tensamin.client` | Normal Tensamin icon |
+| Canary | `net.tensamin.client.canary` | Yellow Tensamin icon |
+| Local development | `net.tensamin.client.dev` | Blue outline icon |
 
-Stable and canary can be installed side by side. Each ID needs a consistent
-Android signing key and increasing version codes for in-place updates.
-Dev is for local development; client CI verifies it but publishes no dev releases.
+Stable and canary install separately and can coexist. A canary APK updates the
+canary application; it does not switch the stable application to canary.
+Development builds are for local development.
 
-Download the channel's signed APK from prod-pins, or use
-[Obtainium](/obtainium/) to track Android updates. Final APK filenames and
-publication workflows are still pending. These docs do not imply that every
-listed artifact is already published.
+For updates, download a newer APK for the same application, or configure
+[Obtainium](/obtainium/). The client has no built-in automatic updater or
+release-channel switch.
 
-## Iota
+## Browser
 
-For NixOS, use the [central modules](/deployment/). For an unmanaged Linux
-system with systemd, obtain a trusted Iota CLI and the matching signed ZIP
-bundle from prod-pins, then bootstrap explicitly:
+Use the [web client](https://app.tensamin.net). It loads the version currently
+served by that site. Reload the page to load a newer deployed version.
 
-```sh
-sudo ./iota daemon bootstrap --bundle ./iota-release.zip --operator "$USER"
-sudo iota terms accept --system
-sudo iota update channel stable
-sudo iota update check
-sudo iota update apply
-```
-
-`iota-release.zip` is a local filename for your downloaded bundle, not a
-promised release asset name. Verify the initial CLI and bundle provenance
-before running them as root. The bundle provisions the pinned update public
-key and key ID. Later updates verify signed manifests against that trust.
-See [updates and security](/updates/) for channel selection and NixOS updates.
-
-The unmanaged installer uses the `iota-operators` group and
-`iota-daemon.service`/`iota-daemon.socket`. Start a new login session after
-group membership changes. The NixOS module instead uses the `iota` group and
-`iota.service`/`iota.socket`.
+To host your account service, follow [Iota setup](/iota/).

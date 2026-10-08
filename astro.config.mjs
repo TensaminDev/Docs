@@ -46,38 +46,11 @@ export default defineConfig({
         "index",
         "installation",
         "obtainium",
-        "deployment",
+        "iota",
         "updates",
         {
           label: "Developers",
           items: [{ autogenerate: { directory: "developers" } }],
-        },
-        {
-          label: "Components",
-          items: [
-            {
-              label: "Iota",
-              items: [{ autogenerate: { directory: "components/iota" } }],
-            },
-            {
-              label: "Omikron",
-              items: [{ autogenerate: { directory: "components/omikron" } }],
-            },
-            {
-              label: "Omega",
-              items: [{ autogenerate: { directory: "components/omega" } }],
-            },
-            {
-              label: "Auth Server",
-              items: [
-                { autogenerate: { directory: "components/auth-server" } },
-              ],
-            },
-          ],
-        },
-        {
-          label: "Security",
-          items: [{ autogenerate: { directory: "security" } }],
         },
       ],
     }),

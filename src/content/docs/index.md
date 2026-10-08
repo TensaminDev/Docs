@@ -1,8 +1,32 @@
 ---
 title: Introduction
+description: Use Tensamin, host an Iota, or integrate an app with TAuth.
 ---
 
-Tensamin is a decentralised messaging service that puts you in full control of your messages. You self-host an 'Iota', which stores all your user settings and messages. You can host the Iota wherever you want, and as long as it is created outside of the host, it will not be possible to decrypt and read your messages. This means that Iota hosting services can exist in case you would prefer not to host one yourself.
+Tensamin is a messaging application with a self-hosted account service called
+Iota. The client connects to your account to send messages, manage contacts,
+and make calls.
 
-You can also host communities on these Iotas. These communities are extremely powerful as they enable you to create fully customisable plugins and channels in any programming language you choose by compiling them to WASM. This enables you to run a single programming language on both the server and the client.
-Not only can you program custom channels, but you can also design them. You can create custom HTML and CSS for the channels, allowing for unique use cases.
+- [Install the app](/installation/).
+- [Set up an Iota](/iota/).
+- [Integrate your application with TAuth](/developers/tauth/).
+
+## How the components fit together
+
+The client is the application you use on your desktop, phone, or browser.
+Iota stores account data and handles authenticated account operations.
+Omikron connects clients and Iotas and routes traffic between them.
+Omega provides account and connection discovery.
+
+Message operations travel through authenticated MTP connections. Protected
+message content is encrypted for its recipients; routing services do not need
+to read it to forward it. Encryption does not hide every kind of metadata, and
+hosting an Iota does not by itself guarantee that all account data is invisible
+to its operator.
+
+Calls use LiveKit for media transport, with Omikron handling admission to calls.
+TAuth lets third-party applications request specific account permissions without
+receiving the user's password.
+
+Community extensions and custom channel protocols are development work. The
+public docs do not describe them as a supported integration API.
