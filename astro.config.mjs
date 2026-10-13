@@ -24,7 +24,7 @@ export default defineConfig({
         {
           icon: "code-branch",
           label: "Git",
-          href: "https://git.methanium.net/tensamin",
+          href: "https://github.com/TensaminDev",
         },
         {
           icon: "external",

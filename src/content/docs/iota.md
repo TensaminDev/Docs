@@ -9,7 +9,7 @@ identity files backed up. An Iota identity is separate from a user's account key
 ## Linux with systemd
 
 Obtain an Iota CLI and the matching system-wide installer ZIP from the same
-[release](https://git.methanium.net/tensamin/prod-pins/releases). Choose the
+[release](https://github.com/TensaminDev/Production-Pins/releases). Choose the
 architecture matching your host, `x86_64` or `aarch64`.
 
 Verify the initial download's provenance and trusted signing key before running
@@ -54,7 +54,7 @@ Hosting an Iota does not automatically host the web client.
 Add the module flake to your system's inputs and pass `inputs` through `specialArgs`:
 
 ```nix
-inputs.tensamin.url = "git+https://git.methanium.net/tensamin/prod-pins?ref=main";
+inputs.tensamin.url = "git+https://github.com/TensaminDev/Production-Pins?ref=main";
 ```
 
 Import the Iota module, install its CLI, and provide runtime TLS paths:

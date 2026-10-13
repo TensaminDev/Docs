@@ -1,7 +1,7 @@
 [
   {
     "id": "net.tensamin.client",
-    "url": "https://git.methanium.net/tensamin/prod-pins",
+    "url": "https://github.com/TensaminDev/Production-Pins",
     "author": "tensamin",
     "name": "Tensamin",
     "overrideSource": "Codeberg",
@@ -9,7 +9,7 @@
   },
   {
     "id": "net.tensamin.client.canary",
-    "url": "https://git.methanium.net/tensamin/prod-pins",
+    "url": "https://github.com/TensaminDev/Production-Pins",
     "author": "tensamin",
     "name": "Tensamin Canary",
     "overrideSource": "Codeberg",

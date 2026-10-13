@@ -3,7 +3,7 @@ title: Install the app
 ---
 
 Download the client from the
-[Tensamin releases](https://git.methanium.net/tensamin/prod-pins/releases).
+[Tensamin releases](https://github.com/TensaminDev/Production-Pins/releases).
 Choose a release and use the assets attached to it for your platform and architecture.
 
 ## Linux
