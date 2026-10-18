@@ -48,8 +48,8 @@ release-channel switch.
 
 ## Browser
 
-Use the [Stable web client](https://tensamin-stable.pages.dev), or try the
-[Canary web client](https://tensamin-canary.pages.dev). Both are static Cloudflare
+Use the [Stable web client](https://app.tensamin.net), or try the
+[Canary web client](https://app.canary.tensamin.net). Both are static Cloudflare
 Pages sites, deployed from the same source pins as their channel's releases.
 Reload the page to load a newer deployed version. Account and call services
 remain on the channel's backend servers.
