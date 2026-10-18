@@ -1,14 +1,19 @@
+name: Deploy documentation
+
 on:
   push:
     branches:
       - main
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
-    runs-on: nixos
+    runs-on: [self-hosted, linux, nixos]
     steps:
       - name: Check out repo
-        uses: https://data.forgejo.org/actions/checkout@v7
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

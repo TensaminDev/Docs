@@ -34,12 +34,12 @@ export default defineConfig({
         {
           icon: "information",
           label: "Status",
-          href: "https://status.methanium.net",
+          href: "https://status.nonanium.net",
         },
         {
           icon: "heart",
           label: "Support us",
-          href: "https://shop.methanium.net/collections/tensamin",
+          href: "https://shop.nonanium.net/collections/tensamin",
         },
       ],
       sidebar: [

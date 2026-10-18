@@ -4,7 +4,7 @@
     "url": "https://github.com/TensaminDev/Production-Pins",
     "author": "tensamin",
     "name": "Tensamin",
-    "overrideSource": "Codeberg",
+    "overrideSource": "GitHub",
     "additionalSettings": "{\"includePrereleases\":false,\"filterReleaseTitlesByRegEx\":\"^stable-\",\"apkFilterRegEx\":\"[.]apk$\",\"autoApkFilterByArch\":true,\"fallbackToOlderReleases\":true,\"sortMethodChoice\":\"date\",\"useLatestAssetDateAsReleaseDate\":true,\"releaseDateAsVersion\":true,\"versionDetection\":false}"
   },
   {
@@ -12,7 +12,7 @@
     "url": "https://github.com/TensaminDev/Production-Pins",
     "author": "tensamin",
     "name": "Tensamin Canary",
-    "overrideSource": "Codeberg",
+    "overrideSource": "GitHub",
     "additionalSettings": "{\"includePrereleases\":true,\"filterReleaseTitlesByRegEx\":\"^canary-\",\"apkFilterRegEx\":\"[.]apk$\",\"autoApkFilterByArch\":true,\"fallbackToOlderReleases\":true,\"sortMethodChoice\":\"date\",\"useLatestAssetDateAsReleaseDate\":true,\"releaseDateAsVersion\":true,\"versionDetection\":false}"
   }
 ]

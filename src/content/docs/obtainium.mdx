@@ -24,10 +24,9 @@ Android still requires compatible signing keys and increasing version codes.
 ## Manual configuration
 
 Use `https://github.com/TensaminDev/Production-Pins` as the source URL, without
-`/releases` or a channel suffix. In **Override Source**, select
-**Forgejo (Codeberg)**, called **Codeberg** in older versions. This is a
-self-hosted Forgejo, so automatic host detection would select the HTML fallback.
-The serialized source identifier is `"overrideSource": "Codeberg"`.
+`/releases` or a channel suffix. GitHub is detected automatically. If setting
+**Override Source** manually, select **GitHub**. The serialized source identifier
+is `"overrideSource": "GitHub"`.
 
 Set the release-title filter to `^stable-` or `^canary-`, the APK filter to
 `[.]apk$`, and allow prereleases only for canary. Enable architecture filtering
