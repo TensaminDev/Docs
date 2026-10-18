@@ -34,6 +34,8 @@ and fallback to older releases. If several compatible APKs remain, select the
 correct one; architecture filtering uses filenames and is only a best effort.
 
 The import enables **Release Date as Version** and disables **Version Detection**.
+Stable releases are normal GitHub releases; Canary releases are marked as
+prereleases. Each numbered release includes one signed universal Android APK.
 Obtainium's pseudo-version tracks the release date, while Android still checks
 signing identity and version code. The metadata-only `stable` and `canary`
 releases have no APKs and are excluded by the title filters.

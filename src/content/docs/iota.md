@@ -20,7 +20,7 @@ Use the actual filenames of your downloaded files:
 
 ```sh
 sudo ./iota-linux-x86_64 daemon bootstrap \
-  --bundle ./iota-linux-x86_64.zip --operator "$USER"
+  --bundle ./iota-installer-linux-x86_64.zip --operator "$USER"
 sudo iota terms accept --system
 ```
 
@@ -74,8 +74,9 @@ Import the Iota module, install its CLI, and provide runtime TLS paths:
 ```
 
 Keep secrets as runtime path strings, not Nix path values containing secrets.
-The currently pinned repositories use SSH inputs, so Nix builds require source
-repository read access.
+Production-Pins fetches its pinned application sources from public GitHub
+repositories. Updating a NixOS installation still requires updating its flake
+lock and rebuilding the system.
 
 The NixOS module names its service and socket `iota`. Its IPC socket is
 `/run/iota/iota.sock`, owned by `iota:iota`. Add operators to the `iota` group.

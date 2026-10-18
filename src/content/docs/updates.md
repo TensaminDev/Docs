@@ -30,8 +30,10 @@ Update manifests include binary hashes and sizes, an increasing sequence, and an
 expiry time. The updater verifies signatures and rejects replayed or conflicting
 updates. Expired metadata requires a refreshed manifest from the publisher.
 
-Bootstrap enables `iota-update.timer`. Disable it to require explicit update
-commands:
+Bootstrap enables `iota-update.timer`, which checks hourly with up to 15 minutes
+of jitter. Signed metadata is valid for 90 days and points to binaries in an
+immutable GitHub release. Stable follows normal `stable-` releases; Canary follows
+`canary-` prereleases. Disable the timer to require explicit update commands:
 
 ```sh
 sudo systemctl disable --now iota-update.timer

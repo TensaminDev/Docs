@@ -5,6 +5,10 @@ title: Install the app
 Download the client from the
 [Tensamin releases](https://github.com/TensaminDev/Production-Pins/releases).
 Choose a release and use the assets attached to it for your platform and architecture.
+Numbered `stable-` releases are Stable builds. Numbered `canary-` prereleases
+are Canary builds. Each is published only after its builds and server deployment
+succeed. The metadata-only releases named `stable` and `canary` contain Iota
+update pointers, not app installers.
 
 ## Linux
 
