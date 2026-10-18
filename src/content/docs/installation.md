@@ -48,7 +48,10 @@ release-channel switch.
 
 ## Browser
 
-Use the [web client](https://app.tensamin.net). It loads the version currently
-served by that site. Reload the page to load a newer deployed version.
+Use the [Stable web client](https://tensamin-stable.pages.dev), or try the
+[Canary web client](https://tensamin-canary.pages.dev). Both are static Cloudflare
+Pages sites, deployed from the same source pins as their channel's releases.
+Reload the page to load a newer deployed version. Account and call services
+remain on the channel's backend servers.
 
 To host your account service, follow [Iota setup](/iota/).
