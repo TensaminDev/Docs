@@ -16,9 +16,19 @@ Verify the initial download's provenance and trusted signing key before running
 the CLI as root. The installer checks bundle contents, but a key downloaded
 alongside an untrusted binary cannot establish initial trust.
 
+The current release signing key has ID `primary` and this Ed25519 public key:
+
+```text
+3b9da4515a254a0082e5c0ee55164a54958258763f7a0d5e45879512aa6e91a9
+```
+
+The release's `IOTA_RELEASE_PUBLIC_KEY` file and the installer's update
+configuration must match this public key.
+
 Use the actual filenames of your downloaded files:
 
 ```sh
+chmod +x ./iota-linux-x86_64
 sudo ./iota-linux-x86_64 daemon bootstrap \
   --bundle ./iota-installer-linux-x86_64.zip --operator "$USER"
 sudo iota terms accept --system

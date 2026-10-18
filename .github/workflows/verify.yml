@@ -1,25 +1,32 @@
-name: Deploy documentation
+name: Verify documentation
 
 on:
   push:
     branches:
       - main
+  pull_request:
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
-    runs-on: [self-hosted, linux, nixos]
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build
-
-      - name: Deploy
-        run: rsync -a --delete dist/ /var/lib/www/tensamin-docs/
